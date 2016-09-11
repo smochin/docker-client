@@ -25,16 +25,20 @@ public class Images extends Rest {
     }
     
     public HttpResponse create(String fromImage) {
-        Callable<Post> post = post("/images/create");
-        post.query("fromImage", fromImage);
+        Callable<Post> post = postFromImage(fromImage);
         return post.call();
     }
     
     public HttpResponse create(String fromImage, ChunkHandler chunkHandler) {
+        Callable<Post> create = postFromImage(fromImage);
+        create.chunkHandler(chunkHandler);
+        return create.call();
+    }
+    
+    private Callable postFromImage(String fromImage) {
         Callable<Post> post = post("/images/create");
         post.query("fromImage", fromImage);
-        post.chunkHandler(chunkHandler);
-        return post.call();
+        return post;
     }
     
     //200, 404, 500
@@ -81,7 +85,10 @@ public class Images extends Rest {
         return delete.call();
     }
     
-    public HttpResponse search() {
-        return null;
+    //200, 500
+    public HttpResponse search(String type, String query) {
+        Callable<Get> search = get("/images/search");
+        search.query(type, query);
+        return search.call();
     }
 }

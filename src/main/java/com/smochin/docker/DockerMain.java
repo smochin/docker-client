@@ -8,9 +8,7 @@ public class DockerMain {
     public static void main(String[] args) {
         Images images = new Images("http://localhost:2375");
         
-        HttpResponse create = images.create("wordpress:4.6.0", chunk -> {
-            System.out.println(chunk);
-        });
+        HttpResponse create = images.create("wordpress:4.6.0");
         
         HttpResponse list = images.list();
         System.out.println(list.getEntity());
